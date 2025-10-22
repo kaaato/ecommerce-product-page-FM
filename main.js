@@ -281,6 +281,7 @@ function handleClickToAddToCart(event) {
 
   } else if (target.matches(".product-actions-add-to-cart-button")) {
     // the add to cart button
+    
     if (cartButton.getAttribute("aria-expanded") === "false") {
       toggleCart();
       cartButton.setAttribute("aria-expanded", "true");
@@ -290,13 +291,26 @@ function handleClickToAddToCart(event) {
       if(cartCounter) {
         cartCounter.remove();
         cartCounter = null;
+
+        editCartContent(productQuantityText, productCostText);
+        editProductIconContent(productIconTitle, productIconDesc);
+
+        emptyCartContent.classList.remove("cart-hidden");
+        filledCartContent.classList.add("cart-hidden");
+      } else {
+        product.quantity = 1;
+        showCartCounter(cartButton, product);
+        cartCounter = document.querySelector(".cart-counter");
+        toggleDisabledStateOnButtons(decreaseButton, increaseButton);
+        quantityInput.value = 1;
+
+        editCartContent(productQuantityText, productCostText);
+        editProductIconContent(productIconTitle, productIconDesc);
+
+        emptyCartContent.classList.add("cart-hidden");
+        filledCartContent.classList.remove("cart-hidden");
+        return;
       }
-
-      editCartContent(productQuantityText, productCostText);
-      editProductIconContent(productIconTitle, productIconDesc);
-
-      emptyCartContent.classList.remove("cart-hidden");
-      filledCartContent.classList.add("cart-hidden");
 
     } else if (0 < product.quantity) {
       emptyCartContent.classList.add("cart-hidden");
